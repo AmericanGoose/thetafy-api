@@ -18,7 +18,7 @@ def DownloadMusic(UrlList: Union[List[str], str]) -> List[str]:
         for i in UrlList:
             try:
                 # We use the Spotify URL/ID to search YouTube for the exact audio track
-                info = ydl.extract_info(f"ytsearch1:{i} audio", download=False)
+                info = ydl.extract_info(f"scsearch1:{i}", download=False)
                 if 'entries' in info and len(info['entries']) > 0:
                     # Grab the direct audio stream link
                     url = info['entries'][0]['url']
