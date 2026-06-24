@@ -7,20 +7,20 @@ def DownloadMusic(UrlList: Union[List[str], str]) -> List[str]:
     if type(UrlList) != list:
         return "required list"
 
-    # Settings for the downloader to only grab audio
+    # THE FIX: We disguise the scraper as an Android device to bypass the YouTube Bot Block
     ydl_opts = {
         'format': 'bestaudio/best',
         'noplaylist': True,
         'quiet': True,
+        'extractor_args': {'youtube': ['player_client=android']} 
     }
 
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         for i in UrlList:
             try:
-                # We use the Spotify URL/ID to search YouTube for the exact audio track
-                info = ydl.extract_info(f"scsearch1:{i}", download=False)
+                # We are switching back to YouTube search (ytsearch1)
+                info = ydl.extract_info(f"ytsearch1:{i}", download=False)
                 if 'entries' in info and len(info['entries']) > 0:
-                    # Grab the direct audio stream link
                     url = info['entries'][0]['url']
                     audio_urls.append(url)
             except Exception as e:
